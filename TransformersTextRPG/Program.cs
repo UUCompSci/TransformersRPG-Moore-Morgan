@@ -34,6 +34,8 @@ const byte Stanix3 = 14;
 const byte AcidWastes3 = 15;
 const byte Stanix2 = 16;
 const byte AcidWastes2 = 17;
+const byte AcidWastes4 = 21;
+const byte AcidWastes5 = 22;
 byte? currentRegion = LithiumFlats;
 
 //Three main stats that class determines the baseline
@@ -188,6 +190,14 @@ while (!exit)
             break;
         case AcidWastes3:
             AcidWastes3Loop();
+            CheckDeath();
+            break;
+        case AcidWastes4:
+            AcidWastes4Loop();
+            CheckDeath();
+            break;
+        case AcidWastes5:
+            AcidWastes5Loop();
             CheckDeath();
             break;
         default:
@@ -532,12 +542,21 @@ void AcidWastes2Loop()
     WriteLine("As you gaze at the base, a feeling of impending doom and fear lingers upon you.");
     WriteLine("Do you have the power necessary to defeat Megatron by yourself? If you fail what will happen to the world? Should you turn back?");
     WriteLine("It's too late to turn back now, you must defeat Megatron and the Decepticons.");
-    //once again you can finish and adjust dialogue
-    WriteLine("You were too weak, the overwhelming power of Megatron was too much for you, a singular weak autobot, to overcome. Hopefully the Autobots hear of Megatron's plan and are successful unlike you.");
-    WriteLine("Game Over.")
-    currentRegion = null;
-}
+    WriteLine("You stumble upon an injured autobot on the side of the road, do you want to help him? (Y or N)");
+    switch (GetChoice())
+    {
+        case Y:
+            WriteLine("You use some of your resources to help the autobot.");
+            currentRegion = AcidWastes4;
+            break;
+        case N:
+            WriteLine("You leave the autobot to die alone, he is only a hinderance to your mission.");
+            currentRegion = AcidWastes5;
+            break;
 
+    }
+    //once again you can finish and adjust dialogue
+}
 void AcidWastes3Loop()
 {
     WriteLine("You have arrived at the Acid Wastes, be ready to meet the Decepticons!");
@@ -550,3 +569,17 @@ void AcidWastes3Loop()
     WriteLine("Game Over.");
     currentRegion = null;
 }
+
+//what happens if you choose to help the autobot
+void AcidWastes4Loop()
+    {
+        WriteLine("");
+    }
+
+//what happens if you choose to abandon the autobot
+void AcidWastes5Loop()
+    {
+        WriteLine("You were too weak, the overwhelming power of Megatron was too much for you, a singular weak autobot, to overcome. Hopefully the Autobots hear of Megatron's plan and are successful unlike you.");
+        WriteLine("Game Over.");
+        currentRegion = null;
+    }
