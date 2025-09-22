@@ -1,4 +1,5 @@
-﻿//Bytes for character Selection
+﻿using static System.Console;
+//Bytes for character Selection
 const byte BumbleBee = 0;
 const byte SmokeScreen = 1;
 const byte Warpath = 2;
@@ -12,6 +13,15 @@ const ConsoleKey V = ConsoleKey.V;
 const ConsoleKey ESC = ConsoleKey.Escape;
 
 
+//Create locations
+const byte LithiumFlats = 0;
+const byte Place2 = 1;
+const byte Place3 = 2;
+const byte Place4 = 3;
+const byte AcidWaste = 4;
+const byte Iacon = 5;
+byte? currentRegion = Place1;
+
 //For Character Selection
 int CharacterNumber;
 
@@ -24,6 +34,7 @@ int MaxHealth;
 //Determines Vehicle and Weapon the PC uses
 string[] AltMode;
 string[] Weapon;
+
 
 //Starts the character selection 
 if (args.Length == 0)
@@ -64,10 +75,9 @@ else
 
             default:
                 Console.WriteLine("Selected Deafault Character: BumbleBee");
-            break;
+                break;
         }
     }
-    
     /*try
     {
         
@@ -87,6 +97,76 @@ else
     {
        
     }*/
-   
+
 }
+
+//Game loop
+bool exit = false;
+while (!exit)
+{
+    WriteLine();
+    switch (currentRegion)
+    {
+        case LithiumFlats:
+            LithiumFlatsLoop();
+            CheckDeath();
+            break;
+        case Place2:
+            Place2Loop();
+            CheckDeath();
+            break;
+        case Place3:
+            Place3Loop();
+            CheckDeath();
+            break;
+        case AcidWaste:
+            AcidWasteLoop();
+            CheckDeath();
+            break;
+        case Iacon:
+            IaconLoop();
+            CheckDeath();
+            break;
+        default:
+            WriteLine("Game over");
+            exit = true;
+            break;
+    }
+}
+Thread.Sleep(3000);
+
+void CheckDeath()
+{
+    if (HP <= 0)
+    {
+        currentRegion = null;
+    }
+}
+void LithiumFlatsLoop()
+{
+
+}
+
+void Place2Loop()
+{ 
+    
+}
+void Place3Loop()
+{ 
+    
+}
+void Place4Loop()
+{ 
+    
+}
+void AcidWasteLoop()
+{ 
+    
+}
+
+void IaconLoop()
+{ 
+    
+}
+
 
