@@ -1,0 +1,15 @@
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/bin/Debug/net9.0/TransformersTextRPG
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/bin/Debug/net9.0/TransformersTextRPG.deps.json
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/bin/Debug/net9.0/TransformersTextRPG.runtimeconfig.json
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/bin/Debug/net9.0/TransformersTextRPG.dll
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/bin/Debug/net9.0/TransformersTextRPG.pdb
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.AssemblyInfoInputs.cache
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.AssemblyInfo.cs
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.csproj.CoreCompileInputs.cache
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.sourcelink.json
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.dll
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/refint/TransformersTextRPG.dll
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.pdb
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/TransformersTextRPG.genruntimeconfig.cache
+/Users/jmoore/Documents/GitHub/project-1-create-a-text-based-rpg-moore-morgan/TransformersTextRPG/obj/Debug/net9.0/ref/TransformersTextRPG.dll
