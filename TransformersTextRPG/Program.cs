@@ -11,12 +11,8 @@ const ConsoleKey X = ConsoleKey.X;
 const ConsoleKey C = ConsoleKey.C;
 const ConsoleKey V = ConsoleKey.V;
 const ConsoleKey ESC = ConsoleKey.Escape;
-ConsoleKey CharacterChoice()
-{
-    ConsoleKey choice = ReadKey(true).Key;
-    Console.WriteLine();
-    return choice;
-}
+//For Character Selection
+int CharacterNumber;
 
 //Three main stats that class determines the baseline
 int Speed;
@@ -27,6 +23,7 @@ int MaxHealth;
 //Determines Vehicle and Weapon the PC uses
 string[] AltMode;
 string[] Weapon;
+
 
 //Starts the character selection 
 if (args.Length == 0)
@@ -105,7 +102,6 @@ else
             break;
         }
     }
-    
     /*try
     {
         
@@ -125,6 +121,76 @@ else
     {
        
     }*/
-   
+
 }
+
+//Game loop
+bool exit = false;
+while (!exit)
+{
+    WriteLine();
+    switch (currentRegion)
+    {
+        case LithiumFlats:
+            LithiumFlatsLoop();
+            CheckDeath();
+            break;
+        case Place2:
+            Place2Loop();
+            CheckDeath();
+            break;
+        case Place3:
+            Place3Loop();
+            CheckDeath();
+            break;
+        case AcidWaste:
+            AcidWasteLoop();
+            CheckDeath();
+            break;
+        case Iacon:
+            IaconLoop();
+            CheckDeath();
+            break;
+        default:
+            WriteLine("Game over");
+            exit = true;
+            break;
+    }
+}
+Thread.Sleep(3000);
+
+void CheckDeath()
+{
+    if (HP <= 0)
+    {
+        currentRegion = null;
+    }
+}
+void LithiumFlatsLoop()
+{
+
+}
+
+void Place2Loop()
+{ 
+    
+}
+void Place3Loop()
+{ 
+    
+}
+void Place4Loop()
+{ 
+    
+}
+void AcidWasteLoop()
+{ 
+    
+}
+
+void IaconLoop()
+{ 
+    
+}
+
 
