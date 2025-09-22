@@ -1,10 +1,25 @@
-﻿//For Character Selection
+﻿//Bytes for character Selection
+const byte BumbleBee = 0;
+const byte SmokeScreen = 1;
+const byte Warpath = 2;
+byte? SelectedCharacter = BumbleBee;
+
+//Grabs Concole Keys for Input
+const ConsoleKey Z = ConsoleKey.Z;
+const ConsoleKey X = ConsoleKey.X;
+const ConsoleKey C = ConsoleKey.C;
+const ConsoleKey V = ConsoleKey.V;
+const ConsoleKey ESC = ConsoleKey.Escape;
+
+
+//For Character Selection
 int CharacterNumber;
 
 //Three main stats that class determines the baseline
 int Speed;
 int Strength;
 int Health;
+int MaxHealth;
 
 //Determines Vehicle and Weapon the PC uses
 string[] AltMode;
@@ -17,21 +32,45 @@ if (args.Length == 0)
     Speed = 80;
     Strength = 50;
     Health = 40;
+    MaxHealth = 40;
     AltMode = new string[] { "Small Car" };
     Weapon = new string[] { "Repeater Blaster" };
 }
 else
 {
     Console.WriteLine("Characters Available:");
-    Console.WriteLine("BumbleBee: Speed = 80, Strength = 30, Health = 40");
-    Console.WriteLine("SmokeScreen: Speed = 50, Strength = 50, Health = 50");
-    Console.WriteLine("Warpath: Speed = 30, Strength = 70, Health = 50");
-    bool CharacterSelectionArg = true;
+    Console.WriteLine("BumbleBee(1): Speed = 80, Strength = 30, Health = 40");
+    Console.WriteLine("SmokeScreen(2): Speed = 50, Strength = 50, Health = 50");
+    Console.WriteLine("Warpath: Speed(3) = 30, Strength = 70, Health = 50");
+    bool CharacterSelectionState = true;
 
-    try
+    while (CharacterSelectionState)
     {
-        CharacterNumber = int.Parse(args[0]);
+        Console.WriteLine();
+        switch (SelectedCharacter)
+        {
+            case BumbleBee:
+                Console.WriteLine("Character Selected: BumbleBee");
+                break;
 
+
+            case SmokeScreen:
+                Console.WriteLine("Character Selected: SmokeScreen");
+                break;
+
+            case Warpath:
+                Console.WriteLine("Character Selected: Warpath");
+                break;
+
+            default:
+                Console.WriteLine("Selected Deafault Character: BumbleBee");
+            break;
+        }
+    }
+    
+    /*try
+    {
+        
     }
     catch (FormatException)
     {
@@ -39,16 +78,15 @@ else
         Speed = 80;
         Strength = 50;
         Health = 40;
+        MaxHealth = 40;
         AltMode = new string[] { "Small Car" };
         Weapon = new string[] { "Repeater Blaster" };
         CharacterSelectionArg = false;
     }
-    /*if (CharacterSelectionArg)
+    if (CharacterSelectionArg)
     {
-        if (CharacterNumber = 1)
-        {
-            
-        }
+       
     }*/
+   
 }
 
