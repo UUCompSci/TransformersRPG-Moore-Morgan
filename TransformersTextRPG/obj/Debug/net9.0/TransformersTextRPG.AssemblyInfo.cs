@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TransformersTextRPG")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d2877e590906c91b7e8ecabe5729e27b9b09db9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b695160aded0a84899cef10c6a4acf34426b9f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("TransformersTextRPG")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TransformersTextRPG")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

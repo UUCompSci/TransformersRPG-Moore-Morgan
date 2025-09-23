@@ -45,10 +45,17 @@ const byte AcidWastes5 = 22;
 byte? currentRegion = LithiumFlats;
 
 //Three main stats that class determines the baseline
-int Speed;
-int Strength;
-int Health;
-int MaxHealth;
+int Speed = 0;
+int Strength = 0; 
+int Health = 0;
+int MaxHealth = 0;
+int StrongAttack = Strength * 2;
+int LightAttack = Strength / 2;
+
+//Enemy stats
+int EnemySpeed = 0;
+int EnemyStrength = 0;
+int EnemyHealth = 0;
 
 //Determines Vehicle and Weapon the PC uses
 string[] AltMode;
@@ -132,7 +139,7 @@ else
         }
     }
     
-    /*try
+    try
     {
         
     }
@@ -145,18 +152,13 @@ else
         MaxHealth = 40;
         AltMode = new string[] { "Small Car" };
         Weapon = new string[] { "Repeater Blaster" };
-        CharacterSelectionArg = false;
+        CharacterSelectionState = false;
     }
-    if (CharacterSelectionArg)
-    {
-       
-    }*/
-   
 }
 
 
 //Game loop
-/*bool exit = false;
+bool exit = false;
 while (!exit)
 {
     WriteLine();
@@ -179,7 +181,7 @@ while (!exit)
             CheckDeath();
             break;
         case AcidWastes:
-            AcidWasteLoop();
+            AcidWastesLoop();
             CheckDeath();
             break;
         case Iacon:
@@ -255,7 +257,6 @@ void CheckDeath()
     if (Health <= 0)
     {
         currentRegion = null;
-        return;
     }
 }
 
@@ -267,8 +268,34 @@ void LithiumFlatsLoop()
     WriteLine("Upon arrival you receive a letter, it is from Megatron, he is requesting you to aid him in his fight against the autobots and is planning on launching an attack soon."); //idk abt the letter thing just however the user is informed
     WriteLine("Megatron leads the Decepticons, a widely disliked group of transformors who wishes to take over the universe and kill the Autobots.");
     WriteLine("Would you like to help the Autobots and inform them of the threat (Z), side with the Autobots and fight Megatron solo (X), or join the Decepticons (C)? ");
-    switch (GetChoice())
+
+
+    switch (ChoiceSelection())
     {
+
+        bool EnemeyDefeated = false;
+
+
+    if (EnemeyDefeated is false)
+    {
+        while (!EnemeyDefeated) {
+
+            WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+            WriteLine("What Will You Do?");
+            switch (ChoiceSelection())
+            {
+
+
+                case Z:
+
+            }
+        }
+    }
+
+
+    if (EnemeyDefeated is true) {
+
+        switch(ChoiceSelection()){
         case Z:
             currentRegion = Praxus;
             break;
@@ -279,6 +306,7 @@ void LithiumFlatsLoop()
             currentRegion = Nyon;
             break;
 
+        }
     }
 }
 
@@ -290,7 +318,7 @@ void PraxusLoop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
     case Y:
             WriteLine("Great!");
@@ -307,7 +335,7 @@ void IaconLoop()
 {
     WriteLine("You have arrived at Iacon. You collect resources here and prepare to fight.");
     WriteLine("You find Optimus, would you like to inform him of the threat from the Decepticons? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Optimus thanks you and you the Autobots and progress on your journey to fight the Decepticons!");
@@ -326,7 +354,7 @@ void AltihexLoop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -346,7 +374,7 @@ void TyrestLoop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -366,7 +394,7 @@ void StanixLoop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -389,7 +417,7 @@ void Praxus2Loop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -407,7 +435,7 @@ void Iacon2Loop()
     WriteLine("You have arrived at Iacon.");
     WriteLine("You collect resources here and prepare for battle."); // Idk what specific stuff but you can come up with that bc you know transformers better than me
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -427,7 +455,7 @@ void Altihex2Loop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -447,7 +475,7 @@ void Tyrest2Loop()
 
 
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -467,7 +495,7 @@ void Stanix2Loop()
 
     WriteLine("As you near the Decepticon base you worry you may have made the wrong decision going by yourself...");
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
 { 
         case Y:
             WriteLine("Great!");
@@ -489,7 +517,7 @@ void NyonLoop()
 
 
     WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -509,7 +537,7 @@ void RodionLoop()
 
 
     WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -530,7 +558,7 @@ void HydraxCityLoop()
 
 
     WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -551,7 +579,7 @@ void Stanix3Loop()
 
 
     WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -585,7 +613,7 @@ void AcidWastes2Loop()
     WriteLine("Do you have the power necessary to defeat Megatron by yourself? If you fail what will happen to the world? Should you turn back?");
     WriteLine("It's too late to turn back now, you must defeat Megatron and the Decepticons.");
     WriteLine("You stumble upon an injured autobot on the side of the road, do you want to help him? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("You use some of your resources to help the autobot.");
@@ -625,3 +653,21 @@ void AcidWastes5Loop()
         WriteLine("Game Over.");
         currentRegion = null;
     }
+
+//An Enemy Fight
+void Seeker()
+{
+    EnemyHealth = 100;
+    EnemySpeed = 60;
+    EnemyStrength = 20;
+}
+
+void TurnOne()
+{
+
+}
+
+void UpdateHealth(int h)
+{
+    
+}
