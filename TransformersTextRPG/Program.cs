@@ -1863,7 +1863,7 @@ void AcidWastes5Loop()
         currentRegion = null;
 }
 
-
+//might removet this
 void UpdateHealth(int h)
 {
     Health += h;
