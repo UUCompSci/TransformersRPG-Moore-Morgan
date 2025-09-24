@@ -9,11 +9,15 @@ byte? SelectedCharacter = BumbleBee;
 const ConsoleKey Z = ConsoleKey.Z;
 const ConsoleKey X = ConsoleKey.X;
 const ConsoleKey C = ConsoleKey.C;
-const ConsoleKey V = ConsoleKey.V;
-const ConsoleKey ESC = ConsoleKey.Escape;
+
 const ConsoleKey Y = ConsoleKey.Y;
 const ConsoleKey N = ConsoleKey.N;
-
+ConsoleKey ChoiceSelection()
+{
+    ConsoleKey choice = ReadKey(true).Key;
+    WriteLine();
+    return choice;
+}
 
 //Create locations
 const byte LithiumFlats = 18;
@@ -39,79 +43,116 @@ const byte AcidWastes5 = 22;
 byte? currentRegion = LithiumFlats;
 
 //Three main stats that class determines the baseline
-int Speed;
-int Strength;
-int Health;
-int MaxHealth;
+int Speed = 0;
+int Strength = 0; 
+int Health = 0;
+int MaxHealth = 0;
+int StrongAttack = Strength * 2;
+
+//Enemy stats
+int SeekerSpeed = 0;
+int SeekerStrength = 0;
+int SeekerHealth = 0;
 
 //Determines Vehicle and Weapon the PC uses
-string[] AltMode;
-string[] Weapon;
-
+string[] AltMode = {};
+string[] Weapon = {};
 
 //Starts the character selection 
 if (args.Length == 0)
 {
-    Console.WriteLine("Default Character: 'BumbleBee' Selected");
+    WriteLine();
+    WriteLine("Default Character: 'BumbleBee' Selected");
     Speed = 80;
     Strength = 50;
     Health = 40;
     MaxHealth = 40;
-    AltMode = new string[] { "Small Car" };
-    Weapon = new string[] { "Repeater Blaster" };
+    AltMode = new string[] {"Small Car" };
+    Weapon = new string[] { "Subsonic Repeater" };
 }
 else
 {
-    Console.WriteLine("Characters Available:");
-    Console.WriteLine("BumbleBee(1): Speed = 80, Strength = 30, Health = 40");
-    Console.WriteLine("SmokeScreen(2): Speed = 50, Strength = 50, Health = 50");
-    Console.WriteLine("Warpath: Speed(3) = 30, Strength = 70, Health = 50");
-    bool CharacterSelectionState = true;
+    WriteLine();
+    WriteLine("Characters Available:");
+    WriteLine("BumbleBee(Z): Speed = 80, Strength = 30, Health = 40");
+    WriteLine("SmokeScreen(X): Speed = 50, Strength = 50, Health = 50");
+    WriteLine("Warpath(C): Speed = 30, Strength = 70, Health = 50");
+    bool CharacterSelectionState = false;
 
-    while (CharacterSelectionState)
+    while (!CharacterSelectionState)
     {
-        Console.WriteLine();
-        switch (SelectedCharacter)
+        switch (ChoiceSelection())
         {
-            case BumbleBee:
-                Console.WriteLine("Character Selected: BumbleBee");
+            case Z:
+                WriteLine("Character Selected: BumbleBee");
+                SelectedCharacter = BumbleBee;
+                Speed = 80;
+                Strength = 50;
+                Health = 40;
+                MaxHealth = 40;
+                AltMode = new string[] { "Small Car" };
+                Weapon = new string[] { "Subsonic Repeater" };
+                CharacterSelectionState = true;
+            
+                break;
+            
+
+
+            case X:
+                WriteLine("Character Selected: SmokeScreen");
+                SelectedCharacter = SmokeScreen;
+                Speed = 50;
+                Strength = 50;
+                Health = 50;
+                MaxHealth = 50;
+                AltMode = new string[] { "Car" };
+                Weapon = new string[] { "Scatter Blaster" };
+                CharacterSelectionState = true;
                 break;
 
-
-            case SmokeScreen:
-                Console.WriteLine("Character Selected: SmokeScreen");
-                break;
-
-            case Warpath:
-                Console.WriteLine("Character Selected: Warpath");
+            case C:
+                WriteLine("Character Selected: Warpath");
+                SelectedCharacter = Warpath;
+                Speed = 30;
+                Strength = 70;
+                Health = 70;
+                MaxHealth = 70;
+                AltMode = new string[] { "Tank" };
+                 Weapon = new string[] { "Riot Cannon" };
+                CharacterSelectionState = true;
                 break;
 
             default:
-                Console.WriteLine("Selected Deafault Character: BumbleBee");
-                break;
+                WriteLine("Deafault Character Selected: BumbleBee");
+                SelectedCharacter = BumbleBee;
+                Speed = 80;
+                Strength = 50;
+                Health = 40;
+                MaxHealth = 40;
+                AltMode = new string[] { "Small Car" };
+                Weapon = new string[] { "Subsonic Repeater" };
+                CharacterSelectionState = true;
+            break;
         }
     }
-    /*try
+    
+    try
     {
         
     }
     catch (FormatException)
     {
-        Console.WriteLine("No Selection Made. Setting Character to Default: BumbleBee.");
+        WriteLine("No Selection Made. Setting Character to Default: BumbleBee.");
         Speed = 80;
         Strength = 50;
         Health = 40;
         MaxHealth = 40;
         AltMode = new string[] { "Small Car" };
         Weapon = new string[] { "Repeater Blaster" };
-        CharacterSelectionArg = false;
+        CharacterSelectionState = false;
     }
-    if (CharacterSelectionArg)
-    {
-       
-    }*/
-
 }
+
 
 //Game loop
 bool exit = false;
@@ -213,7 +254,6 @@ void CheckDeath()
     if (Health <= 0)
     {
         currentRegion = null;
-        return;
     }
 }
 
@@ -222,20 +262,20 @@ void CheckDeath()
 void LithiumFlatsLoop()
 {
     WriteLine("You have arrived at the Lithium Flats.");
-    WriteLine("Upon arrival you receive a letter, it is from Megatron, he is requesting you to aid him in his fight against the autobots and is planning on launching an attack soon."); //idk abt the letter thing just however the user is informed
-    WriteLine("Megatron leads the Decepticons, a widely disliked group of transformors who wishes to take over the universe and kill the Autobots.");
+    WriteLine("Upon arrival you receive a letter, it is from Megatron, he is requesting you to aid him in his fight against the Autobots and is planning on launching an attack soon."); //idk abt the letter thing just however the user is informed
+    WriteLine("Megatron leads the Decepticons, a widely disliked group of transformers who wishes to take over the universe and kill the Autobots.");
     WriteLine("Would you like to help the Autobots and inform them of the threat (Z), side with the Autobots and fight Megatron solo (X), or join the Decepticons (C)? ");
-    switch (GetChoice())
-    {
-        case Z:
-            currentRegion = Praxus;
-            break;
-        case X:
-            currentRegion = Praxus2;
-            break;
-        case C:
-            currentRegion = Nyon;
-            break;
+
+    switch(ChoiceSelection()){
+    case Z:
+        currentRegion = Praxus;
+        break;
+    case X:
+        currentRegion = Praxus2;
+        break;
+    case C:
+        currentRegion = Nyon;
+        break;
 
     }
 }
@@ -244,28 +284,106 @@ void LithiumFlatsLoop()
 void PraxusLoop()
 {
     WriteLine("You have arrived at Praxus.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 110;
+    SeekerSpeed = 35;
+    SeekerStrength = 20;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Iacon;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0 )
+    {
+        WriteLine("Survived your first fight? Would've been kind of embarrassing if you didn't...");
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+               WriteLine("Great!");
+               currentRegion = Iacon;
+               break;
+            case N:
+               WriteLine("That's too bad, maybe we'll see you another time!");
+               currentRegion = LithiumFlats;
+               break;
+
+        }
+    }
 }
+
 void IaconLoop()
 {
     WriteLine("You have arrived at Iacon. You collect resources here and prepare to fight.");
     WriteLine("You find Optimus, would you like to inform him of the threat from the Decepticons? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Optimus thanks you and you the Autobots and progress on your journey to fight the Decepticons!");
@@ -277,64 +395,297 @@ void IaconLoop()
             break;
     }
 }
+
 void AltihexLoop()
 {
     WriteLine("You have arrived at Altihex.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("You feel confident about your chances to defeat the decepticons now that you have the Autbots on your side.");
+    WriteLine("A Decepticon Seeker appeared out of nowhere! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 120;
+    SeekerSpeed = 90;
+    SeekerStrength = 35;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Tyrest;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Tyrest;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void TyrestLoop()
 {
     WriteLine("You have arrived at Tyrest.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("There's a Decepticon approaching you, he doesn't look that strong. Might as well fight him!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 200;
+    SeekerSpeed = 35;
+    SeekerStrength = 20;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Stanix;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Stanix;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void StanixLoop()
 {
     WriteLine("You have arrived at Stanix.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("You spot a Decepticon seeker lurking in on the path in front of you. He looks strong, unfortunately, there is no where to go but forward. You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 150;
+    SeekerSpeed = 60;
+    SeekerStrength = 60;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = AcidWastes;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
 
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+
+    }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Pretty easy right? Well get ready because you're about to enter the Acid Wastes.");
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = AcidWastes;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
     }
 }
 
@@ -343,29 +694,107 @@ void StanixLoop()
 void Praxus2Loop()
 {
     WriteLine("You have arrived at Praxus.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 110;
+    SeekerSpeed = 45;
+    SeekerStrength = 30;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Iacon2;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Survived your first fight? Would've been kind of embarrassing if you didn't...");
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Iacon2;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void Iacon2Loop()
 {
     WriteLine("You have arrived at Iacon.");
     WriteLine("You collect resources here and prepare for battle."); // Idk what specific stuff but you can come up with that bc you know transformers better than me
     WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("Great!");
@@ -378,148 +807,692 @@ void Iacon2Loop()
 
     }
 }
+
 void Altihex2Loop()
 {
     WriteLine("You have arrived at Altihex.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("A Decepticon Seeker appeared out of nowhere! If only you had other autobots to watch your blind spots..");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 130;
+    SeekerSpeed = 90;
+    SeekerStrength = 40;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Tyrest2;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Tyrest2;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void Tyrest2Loop()
 {
     WriteLine("You have arrived at Tyrest. It feels lonely by yourself, but you're determined to see this journey to the end.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    SeekerHealth = 180;
+    SeekerSpeed = 35;
+    SeekerStrength = 30;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Stanix2;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Stanix2;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void Stanix2Loop()
 {
     WriteLine("You have arrived at Stanix.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
-    WriteLine("As you near the Decepticon base you worry you may have made the wrong decision going by yourself...");
-    WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
-    switch (GetChoice())
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
+
+    SeekerHealth = 150;
+    SeekerSpeed = 60;
+    SeekerStrength = 60;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = AcidWastes2;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
 
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+
+    }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("As you near the Decepticon base you worry you may have made the wrong decision going by yourself...");
+        WriteLine("Are you ready to continue your journey to fight the Decepticons? (Y)es or (N)o? ");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = AcidWastes2;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
     }
 }
 
 //Destination progression for choice c
 void NyonLoop()
-{ 
+{
     WriteLine("You have arrived at Nyon.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    SeekerHealth = 120;
+    SeekerSpeed = 50;
+    SeekerStrength = 35;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Rodion;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Survived your first fight? Would've been kind of embarrassing if you didn't...");
+        WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Rodion;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+
+        }
+    }
 }
+
 void RodionLoop()
-{ 
+{
     WriteLine("You have arrived at Rodion.");
-    WriteLine(""); // I'm guessing some type of fight will happen
+    
+    WriteLine("A Decepticon Seeker has Attacked!");
+    WriteLine("Again?? Don't they know you're on their side? Must be a test from Megatron");
+    WriteLine("You must fight and prove you're worthy of joining him!");
+    WriteLine("What Will You Do?");
 
-
-    WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    SeekerHealth = 135;
+    SeekerSpeed = 90;
+    SeekerStrength = 45;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = HydraxCity;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = HydraxCity;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void HydraxCityLoop()
 {
     WriteLine("You have arrived at Hydrax City.");
     WriteLine("As you grow nearer to Acid Wastes you start to wonder if conquering the universe with Megatron is your true desire.");
-    WriteLine(""); // I'm guessing some type of fight will happen
 
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    SeekerHealth = 200;
+    SeekerSpeed = 35;
+    SeekerStrength = 35;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = Stanix3;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
 
     }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("You're almost there! So close to meeting Megatron and gaining all the power you could ever desire!");
+        WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = Stanix3;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
+    }
 }
+
 void Stanix3Loop()
 {
     WriteLine("You have arrived at Stanix.");
-    WriteLine("You miss home. Will life ever be the same after betraying your family and city? Is conquering the universe worth losing your soul?");
-    WriteLine(""); // I'm guessing some type of fight will happen
+    WriteLine("You miss home. Will life ever be the same after betraying your family and city? Is conquering the universe worth it?");
 
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
 
-    WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
-    switch (GetChoice())
+    SeekerHealth = 130;
+    SeekerSpeed = 60;
+    SeekerStrength = 50;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        case Y:
-            WriteLine("Great!");
-            currentRegion = AcidWastes3;
-            break;
-        case N:
-            WriteLine("That's too bad, maybe we'll see you another time!");
-            currentRegion = LithiumFlats;
-            break;
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("The Seeker is faster and uses his missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
 
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on the seeker's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"The Seeker has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("The Seeker is taken down by your efforts!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("The Seeker responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+
+    }
+    CheckDeath();
+
+    if (Health > 0)
+    {
+        WriteLine("Are you ready to continue your journey to help the Decepticons beat the Autobots? (Y or N)");
+        switch (ChoiceSelection())
+        {
+            case Y:
+                WriteLine("Great!");
+                currentRegion = AcidWastes3;
+                break;
+            case N:
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+        }
     }
 }
 
@@ -528,9 +1501,85 @@ void Stanix3Loop()
 //endings
 void AcidWastesLoop()
 {
-    WriteLine("You have arrived at the Acid Wastes, get ready to fight Decepticon!");
-    WriteLine("You approach the base with *insert whoever* and stand ready to fight");
-    //you can write out the fight story line because I don't really know what everyone can do etc.
+    WriteLine("You have arrived at the Acid Wastes, get ready to fight the Decepticon!");
+    WriteLine("You approach the base with Optimus Prime and the rest of the Autobots");
+
+    //the fight
+    WriteLine("Megatron appraoches, without any warning he starts to attack! You Must Fight!");
+    WriteLine("What Will You Do?");
+
+    SeekerHealth = 300;
+    SeekerSpeed = 95;
+    SeekerStrength = 80;
+    while (Health > 0 && SeekerHealth > 0)
+    {
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("Megatron and the Decepticons are faster and use their missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("Megatron and his Decepticons have been defeated!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("Megatron responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+
+    }
+    CheckDeath();
+
     WriteLine("The Autobots won! Megatron was no competition for the mighty Optimus Prime and the Autobots. The universe is saved and Cybertron remains safe!");
     WriteLine("You Won!");
     currentRegion = null;
@@ -538,12 +1587,12 @@ void AcidWastesLoop()
 
 void AcidWastes2Loop()
 {
-    WriteLine("You have arrived at the Acid Wastes, get ready to fight Decepticon!");
+    WriteLine("You have arrived at the Acid Wastes, get ready to fight the Decepticons!");
     WriteLine("As you gaze at the base, a feeling of impending doom and fear lingers upon you.");
     WriteLine("Do you have the power necessary to defeat Megatron by yourself? If you fail what will happen to the world? Should you turn back?");
     WriteLine("It's too late to turn back now, you must defeat Megatron and the Decepticons.");
     WriteLine("You stumble upon an injured autobot on the side of the road, do you want to help him? (Y or N)");
-    switch (GetChoice())
+    switch (ChoiceSelection())
     {
         case Y:
             WriteLine("You use some of your resources to help the autobot.");
@@ -557,6 +1606,7 @@ void AcidWastes2Loop()
     }
     //once again you can finish and adjust dialogue
 }
+
 void AcidWastes3Loop()
 {
     WriteLine("You have arrived at the Acid Wastes, be ready to meet the Decepticons!");
@@ -564,7 +1614,83 @@ void AcidWastes3Loop()
     WriteLine("Do you really think the Decepticons are capable of defeating someone like Optimus Prime?");
     WriteLine("With you there to help them of course they do!....Right?");
     WriteLine("As you're being introduced to Megatron and the rest of the Decepticons you see the autobots approaching, get ready to fight them.");
-    WriteLine(""); //idk stuff about the fight
+    
+    
+    //fight things
+    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("What Will You Do?");
+
+    SeekerHealth = 1000;
+    SeekerSpeed = 100;
+    SeekerStrength = 300;
+    while (Health > 0 && SeekerHealth > 0)
+    {
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("Megatron and the Decepticons are faster and use their missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("Megatron and his Decepticons have been defeated!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("Megatron responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+    }
+    CheckDeath();
+
     WriteLine("Everything has fallen apart, nothing is going to plan, you lie there injured and quickly dying. Why did you ever choose to side with Megatron? Why did you want the power?");
     WriteLine("Game Over.");
     currentRegion = null;
@@ -572,14 +1698,183 @@ void AcidWastes3Loop()
 
 //what happens if you choose to help the autobot
 void AcidWastes4Loop()
+{
+    //fight time
+     WriteLine("Megatron appraoches, without any warning he starts to attack! You Must Fight!");
+    WriteLine("What Will You Do?");
+
+    SeekerHealth = 250;
+    SeekerSpeed = 75;
+    SeekerStrength = 85;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        WriteLine("");
+        if (SeekerSpeed > Speed)
+        {
+            WriteLine("Megatron and the Decepticons are faster and use their missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("Megatron and his Decepticons have been defeated!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("Megatron responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+
     }
+    CheckDeath();
+    WriteLine("Thanks to the autobot's help, you managed to defeat Megatron and the Decepticons without requiring help from the Autobots!");
+    WriteLine("You Won!");
+    currentRegion = null;
+}
 
 //what happens if you choose to abandon the autobot
 void AcidWastes5Loop()
+{
+    WriteLine("Megatron appraoches, without any warning he starts to attack! You Must Fight!");
+    WriteLine("What Will You Do?");
+
+    SeekerHealth = 900;
+    SeekerSpeed = 95;
+    SeekerStrength = 250;
+    while (Health > 0 && SeekerHealth > 0)
     {
-        WriteLine("You were too weak, the overwhelming power of Megatron was too much for you, a singular weak autobot, to overcome. Hopefully the Autobots hear of Megatron's plan and are successful unlike you.");
+        if (SeekerSpeed > Speed)
+        {
+           WriteLine("Megatron and the Decepticons are faster and use their missiles to attack you!");
+            Health = Health - SeekerStrength;
+            WriteLine();
+            WriteLine("How will you respond?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X)");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your Weapon at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {StrongAttack} damage!");
+                    SeekerHealth = SeekerHealth - StrongAttack;
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+
+            }
+        }
+        else
+        {
+            WriteLine("You have the speed advantage! What will you do?");
+            WriteLine("Attack(Z)");
+            WriteLine("Strong Attack(X): WARNING! Strong attacks overload your weapon and damage you for 10 points as well!");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    SeekerHealth = SeekerHealth - Strength;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    break;
+
+                case X:
+                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {Strength * 2} damage!");
+                    SeekerHealth = SeekerHealth - (Strength * 2);
+                    Health = Health - 10;
+                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
+                    CheckDeath();
+                    break;
+            }
+
+        }
+        if (SeekerHealth <= 0)
+        {
+            WriteLine("Megatron and his Decepticons have been defeated!");
+            Health = MaxHealth;
+        }
+        else
+        {
+            WriteLine("Megatron responds with an attack of his own!");
+            Health = Health - SeekerStrength;
+            WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
+            CheckDeath();
+        }
+
+    }
+    CheckDeath();
+
+        WriteLine("You were too weak, the overwhelming power of Megatron was too much for you, a singular weak autobot, to overcome.");
+        WriteLine("Hopefully the Autobots hear of Megatron's plan and are successful unlike you.");
         WriteLine("Game Over.");
         currentRegion = null;
+}
+
+
+void UpdateHealth(int h)
+{
+    Health += h;
+    if (Health >= MaxHealth)
+    {
+        WriteLine("Your Spark Ignites and Your Wounds are Healed!");
+        Health = MaxHealth;
     }
+    else
+    {
+        WriteLine($"You've Been Hit! -{h} Health!");
+    }
+
+}
