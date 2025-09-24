@@ -12,6 +12,8 @@ const ConsoleKey C = ConsoleKey.C;
 
 const ConsoleKey Y = ConsoleKey.Y;
 const ConsoleKey N = ConsoleKey.N;
+
+const ConsoleKey ESC = ConsoleKey.Escape; 
 ConsoleKey ChoiceSelection()
 {
     ConsoleKey choice = ReadKey(true).Key;
@@ -58,7 +60,7 @@ int SeekerHealth = 0;
 string[] AltMode = {};
 string[] Weapon = {};
 
-//Starts the character selection 
+//Starts the character selection
 if (args.Length == 0)
 {
     WriteLine();
@@ -67,7 +69,7 @@ if (args.Length == 0)
     Strength = 50;
     Health = 40;
     MaxHealth = 40;
-    AltMode = new string[] {"Small Car" };
+    AltMode = new string[] { "Small Car" };
     Weapon = new string[] { "Subsonic Repeater" };
 }
 else
@@ -93,9 +95,9 @@ else
                 AltMode = new string[] { "Small Car" };
                 Weapon = new string[] { "Subsonic Repeater" };
                 CharacterSelectionState = true;
-            
+
                 break;
-            
+
 
 
             case X:
@@ -118,7 +120,7 @@ else
                 Health = 70;
                 MaxHealth = 70;
                 AltMode = new string[] { "Tank" };
-                 Weapon = new string[] { "Riot Cannon" };
+                Weapon = new string[] { "Riot Cannon" };
                 CharacterSelectionState = true;
                 break;
 
@@ -132,13 +134,13 @@ else
                 AltMode = new string[] { "Small Car" };
                 Weapon = new string[] { "Subsonic Repeater" };
                 CharacterSelectionState = true;
-            break;
+                break;
         }
     }
-    
+
     try
     {
-        
+
     }
     catch (FormatException)
     {
@@ -151,7 +153,25 @@ else
         Weapon = new string[] { "Repeater Blaster" };
         CharacterSelectionState = false;
     }
+    
+    WriteLine("If you would like to quit the game at any point, press ESC. Cannot leave during battles.");
+    WriteLine("Are you ready to continue into Cybertron? (Y or N)");
+    switch (ChoiceSelection())
+    {
+        case Y:
+            currentRegion = LithiumFlats;
+            break;
+        case N:
+            QuitGame();
+            break;
+        case ESC:
+            QuitGame();
+            break;
+
+
+    }
 }
+    
 
 
 //Game loop
@@ -257,6 +277,12 @@ void CheckDeath()
     }
 }
 
+void QuitGame()
+{
+    WriteLine("Leaving Cybertron..");
+    exit = true;
+}
+
 //Location loops
 //Starting location
 void LithiumFlatsLoop()
@@ -266,16 +292,21 @@ void LithiumFlatsLoop()
     WriteLine("Megatron leads the Decepticons, a widely disliked group of transformers who wishes to take over the universe and kill the Autobots.");
     WriteLine("Would you like to help the Autobots and inform them of the threat (Z), side with the Autobots and fight Megatron solo (X), or join the Decepticons (C)? ");
 
-    switch(ChoiceSelection()){
-    case Z:
-        currentRegion = Praxus;
-        break;
-    case X:
-        currentRegion = Praxus2;
-        break;
-    case C:
-        currentRegion = Nyon;
-        break;
+    switch (ChoiceSelection())
+    {
+        case Z:
+            currentRegion = Praxus;
+            break;
+        case X:
+            currentRegion = Praxus2;
+            break;
+        case C:
+            currentRegion = Nyon;
+            break;
+        case ESC:
+            QuitGame();
+            break;
+        
 
     }
 }
@@ -367,13 +398,18 @@ void PraxusLoop()
         switch (ChoiceSelection())
         {
             case Y:
-               WriteLine("Great!");
-               currentRegion = Iacon;
-               break;
+                WriteLine("Great!");
+                currentRegion = Iacon;
+                break;
             case N:
-               WriteLine("That's too bad, maybe we'll see you another time!");
-               currentRegion = LithiumFlats;
-               break;
+                WriteLine("That's too bad, maybe we'll see you another time!");
+                currentRegion = LithiumFlats;
+                break;
+
+            case ESC:
+            QuitGame();
+            break;
+        
 
         }
     }
@@ -393,6 +429,10 @@ void IaconLoop()
             WriteLine("You changed your mind and decided to continue alone, good luck!");
             currentRegion = Altihex2;
             break;
+        case ESC:
+            QuitGame();
+            break;
+        
     }
 }
 
@@ -489,6 +529,9 @@ void AltihexLoop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -586,6 +629,9 @@ void TyrestLoop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -684,6 +730,9 @@ void StanixLoop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -804,6 +853,9 @@ void Iacon2Loop()
             WriteLine("That's too bad, maybe we'll see you another time!");
             currentRegion = LithiumFlats;
             break;
+        case ESC:
+            QuitGame();
+            break;
 
     }
 }
@@ -900,6 +952,9 @@ void Altihex2Loop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -997,7 +1052,9 @@ void Tyrest2Loop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
-
+            case ESC:
+            QuitGame();
+            break;
         }
     }
 }
@@ -1095,8 +1152,11 @@ void Stanix2Loop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
-        }
+        }   
     }
 }
 
@@ -1194,6 +1254,9 @@ void NyonLoop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
 
         }
@@ -1294,6 +1357,9 @@ void RodionLoop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -1393,6 +1459,9 @@ void HydraxCityLoop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -1491,6 +1560,9 @@ void Stanix3Loop()
                 WriteLine("That's too bad, maybe we'll see you another time!");
                 currentRegion = LithiumFlats;
                 break;
+            case ESC:
+            QuitGame();
+            break;
 
         }
     }
@@ -1601,6 +1673,9 @@ void AcidWastes2Loop()
         case N:
             WriteLine("You leave the autobot to die alone, he is only a hinderance to your mission.");
             currentRegion = AcidWastes5;
+            break;
+        case ESC:
+            QuitGame();
             break;
 
     }
@@ -1863,7 +1938,7 @@ void AcidWastes5Loop()
         currentRegion = null;
 }
 
-//might removet this
+//might remove this ?? or use in vers 2
 void UpdateHealth(int h)
 {
     Health += h;
