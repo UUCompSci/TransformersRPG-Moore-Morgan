@@ -1,10 +1,4 @@
 ﻿using static System.Console;
-//Bytes for character Selection
-const byte BumbleBee = 0;
-const byte SmokeScreen = 1;
-const byte Warpath = 2;
-byte? SelectedCharacter = BumbleBee;
-
 //Grabs Concole Keys for Input
 const ConsoleKey Z = ConsoleKey.Z;
 const ConsoleKey X = ConsoleKey.X;
@@ -56,9 +50,6 @@ int SeekerSpeed = 0;
 int SeekerStrength = 0;
 int SeekerHealth = 0;
 
-//Determines Vehicle and Weapon the PC uses
-string[] AltMode = {};
-string[] Weapon = {};
 
 //Starts the character selection
 if (args.Length == 0)
@@ -69,8 +60,6 @@ if (args.Length == 0)
     Strength = 50;
     Health = 40;
     MaxHealth = 40;
-    AltMode = new string[] { "Small Car" };
-    Weapon = new string[] { "Subsonic Repeater" };
 }
 else
 {
@@ -81,77 +70,64 @@ else
     WriteLine("Warpath(C): Speed = 30, Strength = 70, Health = 50");
     bool CharacterSelectionState = false;
 
+
     while (!CharacterSelectionState)
     {
-        switch (ChoiceSelection())
+
+        try
         {
-            case Z:
-                WriteLine("Character Selected: BumbleBee");
-                SelectedCharacter = BumbleBee;
-                Speed = 80;
-                Strength = 50;
-                Health = 40;
-                MaxHealth = 40;
-                AltMode = new string[] { "Small Car" };
-                Weapon = new string[] { "Subsonic Repeater" };
-                CharacterSelectionState = true;
-
-                break;
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine("Character Selected: BumbleBee");
+                    Speed = 80;
+                    Strength = 50;
+                    Health = 40;
+                    MaxHealth = 40;
+                    CharacterSelectionState = true;
+                    break;
 
 
 
-            case X:
-                WriteLine("Character Selected: SmokeScreen");
-                SelectedCharacter = SmokeScreen;
-                Speed = 50;
-                Strength = 50;
-                Health = 50;
-                MaxHealth = 50;
-                AltMode = new string[] { "Car" };
-                Weapon = new string[] { "Scatter Blaster" };
-                CharacterSelectionState = true;
-                break;
+                case X:
+                    WriteLine("Character Selected: SmokeScreen");
+                    Speed = 50;
+                    Strength = 50;
+                    Health = 50;
+                    MaxHealth = 50;
+                    CharacterSelectionState = true;
+                    break;
 
-            case C:
-                WriteLine("Character Selected: Warpath");
-                SelectedCharacter = Warpath;
-                Speed = 30;
-                Strength = 70;
-                Health = 70;
-                MaxHealth = 70;
-                AltMode = new string[] { "Tank" };
-                Weapon = new string[] { "Riot Cannon" };
-                CharacterSelectionState = true;
-                break;
-
-            default:
-                WriteLine("Deafault Character Selected: BumbleBee");
-                SelectedCharacter = BumbleBee;
-                Speed = 80;
-                Strength = 50;
-                Health = 40;
-                MaxHealth = 40;
-                AltMode = new string[] { "Small Car" };
-                Weapon = new string[] { "Subsonic Repeater" };
-                CharacterSelectionState = true;
-                break;
+                case C:
+                    WriteLine("Character Selected: Warpath");
+                    Speed = 30;
+                    Strength = 70;
+                    Health = 70;
+                    MaxHealth = 70;
+                    CharacterSelectionState = true;
+                    break;
+                default:
+                    WriteLine("No Selection Made. Setting Character to Default: BumbleBee.");
+                    Speed = 80;
+                    Strength = 50;
+                    Health = 40;
+                    MaxHealth = 40;
+                    CharacterSelectionState = true;
+                    break;
+                    
+            }
         }
-    }
 
-    try
-    {
-
-    }
-    catch (FormatException)
-    {
-        WriteLine("No Selection Made. Setting Character to Default: BumbleBee.");
-        Speed = 80;
-        Strength = 50;
-        Health = 40;
-        MaxHealth = 40;
-        AltMode = new string[] { "Small Car" };
-        Weapon = new string[] { "Repeater Blaster" };
-        CharacterSelectionState = false;
+        catch (FormatException)
+        {
+            WriteLine("No Selection Made. Setting Character to Default: BumbleBee.");
+            Speed = 80;
+            Strength = 50;
+            Health = 40;
+            MaxHealth = 40;
+            CharacterSelectionState = true;
+        }
+        }
     }
     
     WriteLine("If you would like to quit the game at any point, press ESC. Cannot leave during battles.");
@@ -170,7 +146,6 @@ else
 
 
     }
-}
     
 
 
@@ -359,7 +334,7 @@ void PraxusLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -422,11 +397,21 @@ void IaconLoop()
     switch (ChoiceSelection())
     {
         case Y:
-            WriteLine("Optimus thanks you and you the Autobots and progress on your journey to fight the Decepticons!");
+            WriteLine($"Optimus: 'Thank you, my friend this information is valuable. It's time we take the fight to the Decepticons!'");
+            //Stat boosts for going to Iacon and getting reinforcements.
+            MaxHealth = MaxHealth + 150;
+            Health = MaxHealth;
+            Strength = Strength + 30;
+            Speed = Speed + 30;
             currentRegion = Altihex;
             break;
         case N:
             WriteLine("You changed your mind and decided to continue alone, good luck!");
+            //Stat increases from gathering supplies less than what you would get from getting backup
+            MaxHealth = MaxHealth + 75;
+            Health = MaxHealth;
+            Strength = Strength + 15;
+            Speed = Speed + 15;
             currentRegion = Altihex2;
             break;
         case ESC:
@@ -438,6 +423,8 @@ void IaconLoop()
 
 void AltihexLoop()
 {
+    WriteLine($"Stats have been incsreased! Stats: {Health}/{MaxHealth} health points, {Strength} strength points, {Speed} speed!");
+    WriteLine();
     WriteLine("You have arrived at Altihex.");
 
     WriteLine("You feel confident about your chances to defeat the decepticons now that you have the Autbots on your side.");
@@ -484,7 +471,7 @@ void AltihexLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -584,7 +571,7 @@ void TyrestLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -684,7 +671,7 @@ void StanixLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -787,7 +774,7 @@ void Praxus2Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -862,6 +849,9 @@ void Iacon2Loop()
 
 void Altihex2Loop()
 {
+
+    WriteLine($"Stats have been minorly incsreased! Stats: {Health}/{MaxHealth} health points, {Strength} strength points, {Speed} speed!");
+    WriteLine();
     WriteLine("You have arrived at Altihex.");
 
     WriteLine("A Decepticon Seeker appeared out of nowhere! If only you had other autobots to watch your blind spots..");
@@ -907,7 +897,7 @@ void Altihex2Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1007,7 +997,7 @@ void Tyrest2Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1106,7 +1096,7 @@ void Stanix2Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1208,7 +1198,7 @@ void NyonLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1312,7 +1302,7 @@ void RodionLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1413,7 +1403,7 @@ void HydraxCityLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1515,7 +1505,7 @@ void Stanix3Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at the Seeker and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the Seeker and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     break;
@@ -1620,7 +1610,7 @@ void AcidWastesLoop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at Megatron and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"Megatron has {SeekerHealth} health remaining!");
                     break;
@@ -1692,7 +1682,7 @@ void AcidWastes3Loop()
     
     
     //fight things
-    WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
+    WriteLine("The Autobot Army Approaches! You Must Fight!");
     WriteLine("What Will You Do?");
 
     SeekerHealth = 1000;
@@ -1702,7 +1692,7 @@ void AcidWastes3Loop()
     {
         if (SeekerSpeed > Speed)
         {
-            WriteLine("Megatron and the Decepticons are faster and use their missiles to attack you!");
+            WriteLine("An Autobot Scout is faster and attack you!");
             Health = Health - SeekerStrength;
             WriteLine();
             WriteLine("How will you respond?");
@@ -1711,16 +1701,16 @@ void AcidWastes3Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your Weapon at Megatron and deal {Strength} damage!");
+                    WriteLine($"You fire your Weapon at the autobot and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"Megatron has {SeekerHealth} health remaining!");
                     break;
 
                 case X:
-                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {StrongAttack} damage!");
+                    WriteLine($"You concentrate your fire power on the autobot's weak spot and deal {StrongAttack} damage!");
                     SeekerHealth = SeekerHealth - StrongAttack;
                     Health = Health - 10;
-                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Autobot Scout has {SeekerHealth} health remaining!");
                     WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
                     CheckDeath();
                     break;
@@ -1735,16 +1725,16 @@ void AcidWastes3Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at the autobot and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
-                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Autobot Scout has {SeekerHealth} health remaining!");
                     break;
 
                 case X:
-                    WriteLine($"You concentrate your fire power on Megatron's weak spot and deal {Strength * 2} damage!");
+                    WriteLine($"You concentrate your fire power on the autobot's weak spot and deal {Strength * 2} damage!");
                     SeekerHealth = SeekerHealth - (Strength * 2);
                     Health = Health - 10;
-                    WriteLine($"Megatron has {SeekerHealth} health remaining!");
+                    WriteLine($"Autobot Scout has {SeekerHealth} health remaining!");
                     WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
                     CheckDeath();
                     break;
@@ -1753,12 +1743,12 @@ void AcidWastes3Loop()
         }
         if (SeekerHealth <= 0)
         {
-            WriteLine("Megatron and his Decepticons have been defeated!");
+            WriteLine("You've thwarted the autobot attack!");
             Health = MaxHealth;
         }
         else
         {
-            WriteLine("Megatron responds with an attack of his own!");
+            WriteLine("The Autobot Scout responds with an attack of his own!");
             Health = Health - SeekerStrength;
             WriteLine($"You take {SeekerStrength} points of damage bringing you to {Health}/{MaxHealth} health points!");
             CheckDeath();
@@ -1818,7 +1808,7 @@ void AcidWastes4Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at Megatron and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"Megatron has {SeekerHealth} health remaining!");
                     break;
@@ -1900,7 +1890,7 @@ void AcidWastes5Loop()
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine($"You fire your {Weapon} at Megatron and deal {Strength} damage!");
+                    WriteLine($"You fire your weapon at Megatron and deal {Strength} damage!");
                     SeekerHealth = SeekerHealth - Strength;
                     WriteLine($"Megatron has {SeekerHealth} health remaining!");
                     break;
@@ -1936,20 +1926,4 @@ void AcidWastes5Loop()
         WriteLine("Hopefully the Autobots hear of Megatron's plan and are successful unlike you.");
         WriteLine("Game Over.");
         currentRegion = null;
-}
-
-//might remove this ?? or use in vers 2
-void UpdateHealth(int h)
-{
-    Health += h;
-    if (Health >= MaxHealth)
-    {
-        WriteLine("Your Spark Ignites and Your Wounds are Healed!");
-        Health = MaxHealth;
-    }
-    else
-    {
-        WriteLine($"You've Been Hit! -{h} Health!");
-    }
-
 }
