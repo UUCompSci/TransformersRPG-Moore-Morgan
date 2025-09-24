@@ -290,11 +290,15 @@ void PraxusLoop()
     WriteLine("A Decepticon Seeker has Attacked! You Must Fight!");
     WriteLine("What Will You Do?");
 
+    //Sets the enemy stats for this encounter 
     SeekerHealth = 110;
     SeekerSpeed = 60;
     SeekerStrength = 30;
+
+    //Keeps the fight going until either the player or enemy dies
     while (Health > 0 && SeekerHealth > 0)
     {
+        //Checks to see whos faster
         if (SeekerSpeed > Speed)
         {
             WriteLine("The Seeker is faster and uses his missiles to attack you!");
@@ -313,7 +317,7 @@ void PraxusLoop()
 
                 case X:
                     WriteLine($"You concentrate your fire power on the seekers weak spot and deal {StrongAttack} damage!");
-                    SeekerHealth = SeekerHealth - StrongAttack;
+                    SeekerHealth = SeekerHealth - (Strength * 2);
                     Health = Health - 10;
                     WriteLine($"The Seeker has {SeekerHealth} health remaining!");
                     WriteLine($"Wepaon overheating causes you to take 10 points of damage and bring you to {Health}/{MaxHealth} health points remaining");
